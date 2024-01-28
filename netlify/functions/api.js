@@ -43,7 +43,7 @@
 
 const express = require("express");
 const serverless = require("serverless-http");
-const router = require("./router");
+const router = require("./blogs/router");
 
 const app = express();
 
@@ -59,6 +59,6 @@ app.use(function (req, res, next) {
   }
 });
 
-app.use("/.netlify/functions/blogs", router);
+app.use("/.netlify/functions/api", router);
 
 module.exports.handler = serverless(app);

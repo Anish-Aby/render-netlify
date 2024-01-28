@@ -59,4 +59,22 @@ router.route("/").get(async (req, res) => {
   }
 });
 
+router.route("/:blogId").get(async (req, res) => {
+  await connectToDB();
+  try {
+    const blog = await Blog.findById(req.params.blogId);
+    res.status(200).json({
+      status: "success",
+      data: {
+        blog,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+});
+
 module.exports = router;
