@@ -48,7 +48,7 @@ const router = require("./router");
 const app = express();
 
 app.use(function (req, res, next) {
-  const allowedHosts = ["your-project-name.netlify.app", "localhost:8888"];
+  const allowedHosts = ["render-api.netlify.app", "localhost:8888"];
   const host = req.headers.host;
   console.log(`host: ${host}`);
 
