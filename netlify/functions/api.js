@@ -43,9 +43,15 @@
 
 const express = require("express");
 const serverless = require("serverless-http");
-const router = require("./blogs/router");
+const cors = require("cors");
+
+const BlogRouter = require("./routes/BlogRoutes");
+const UserRouter = require("./routes/UserRoutes");
 
 const app = express();
+
+app.use(express.json());
+app.use(cors());
 
 app.use(function (req, res, next) {
   const allowedHosts = ["render-api.netlify.app", "localhost:8888"];
@@ -59,6 +65,7 @@ app.use(function (req, res, next) {
   }
 });
 
-app.use("/.netlify/functions/api", router);
+app.use("/api/blogs", BlogRouter);
+app.use("/api/users", UserRouter);
 
 module.exports.handler = serverless(app);
