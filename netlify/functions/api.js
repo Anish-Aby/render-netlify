@@ -51,6 +51,7 @@ const UserRouter = require("./routes/UserRoutes");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("public"));
 app.use(cors());
 
 app.use(function (req, res, next) {
