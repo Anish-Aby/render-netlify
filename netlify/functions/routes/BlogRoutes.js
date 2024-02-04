@@ -13,6 +13,10 @@ router
   .route("/:blogId")
   .get(blogController.getBlogById)
   .patch(blogController.updateBlog)
-  .delete(authController.protect, blogController.deleteBlog);
+  .delete(
+    authController.protect,
+    authController.restrictTo("admin"),
+    blogController.deleteBlog
+  );
 
 module.exports = router;
