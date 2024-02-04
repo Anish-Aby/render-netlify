@@ -148,15 +148,15 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   // 2.) Generate token
-  const resetToken = user.createPasswordResetToken;
+  const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
   // 3.) Send email
   const resetURL = `${req.protocol}://${req.get(
     "host"
-  )}/api/users/resetPassword/${resetToken}`;
+  )}/resetPassword/${resetToken}`;
 
-  const message = `Here is the url ${resetURL}`;
+  const message = resetURL;
 
   try {
     await sendEmail({
@@ -165,6 +165,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message,
     });
   } catch (err) {
+    console.log(err);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
