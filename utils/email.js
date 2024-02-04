@@ -227,7 +227,7 @@ const client = new SMTPClient({
   user: "render.io.blog@gmail.com",
   password: "mrhynplutxnnldlp",
   host: "smtp.gmail.com",
-  // port: 587,
+  port: 587,
   tls: {
     ciphers: "SSLv3",
   },
