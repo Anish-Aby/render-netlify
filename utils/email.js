@@ -224,8 +224,8 @@ const nodemailer = require("nodemailer");
 import { SMTPClient } from "emailjs";
 
 const client = new SMTPClient({
-  user: "render.io.blog@gmail.com",
-  password: "mrhynplutxnnldlp",
+  user: process.env.EMAIL_USERNAME,
+  password: process.env.GOOGLE_APP_PASSWORD,
   host: "smtp.gmail.com",
   port: 587,
   tls: {
