@@ -156,13 +156,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     "host"
   )}/resetPassword/${resetToken}`;
 
-  const message = resetURL;
-
   try {
     await sendEmail({
       email: req.body.email,
       subject: "Render.io Password Reset",
-      message,
+      resetURL,
     });
   } catch (err) {
     console.log(err);
@@ -182,6 +180,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
+  // Connect to db
+  await connectToDB();
+
   // 1. Get user
   const hashedToken = crypto
     .createHash("sha256")
@@ -194,7 +195,12 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   });
   // 2. If token not expired, and there is a user, set the new password
   if (!user) {
-    return next(new AppError("Token has expired", 400));
+    return next(
+      new AppError(
+        "Token has expired. Please try resetting your password again.",
+        400
+      )
+    );
   }
 
   user.password = req.body.password;
@@ -207,6 +213,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    message: "Password changed successfully",
+    // Not sending token
     token,
   });
 });
