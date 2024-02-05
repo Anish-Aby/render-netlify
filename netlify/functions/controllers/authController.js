@@ -152,9 +152,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3.) Send email
-  const resetURL = `${req.protocol}://${req.get(
-    "host"
-  )}/resetPassword/${resetToken}`;
+  const resetURL = `${req.protocol}://renderio.netlify.app/resetPassword/${resetToken}`;
 
   try {
     await sendEmail({
