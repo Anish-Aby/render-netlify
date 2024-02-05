@@ -399,11 +399,12 @@ a[x-apple-data-detectors] {
   };
 
   try {
-    client.send(message, function (err, message) {
-      if (err) {
-        console.log(err);
-      }
-    });
+    await client.sendAsync(message);
+    // client.send(message, function (err, message) {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    // });
   } catch (err) {
     console.log(err);
   }
