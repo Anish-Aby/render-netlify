@@ -44,6 +44,10 @@
 const express = require("express");
 const serverless = require("serverless-http");
 const cors = require("cors");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean");
+const hpp = require("hpp");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -55,7 +59,24 @@ const AppError = require("../../utils/appError");
 
 const app = express();
 
+// 1.) Global middlewares
+
+// set security
+app.use(helmet());
+
+// Body parser, reading data from body into req.body
 app.use(express.json());
+
+// Data sanatization against NoSQL query injection
+app.use(mongoSanitize());
+
+// Data sanitization against XSS
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(hpp());
+
+// Serving static files
 app.use(express.static("./public"));
 app.use(cors());
 
